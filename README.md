@@ -24,23 +24,9 @@ Para las columnas `Payment Method` y `Location` no había forma matemática de a
 ### 5. Limpieza final de fechas y exportación
 Filtré las filas donde la fecha venía tan mal que no se pudo convertir (`NaT`). Por último, guardé el resultado final en el archivo `clean_cafe_sales.csv`.
 
-Tabla Resumen de Problemas y Decisiones
-
-| Problema encontrado | Registros afectados | Acción realizada | Justificación |
-
-| **Cadenas no válidas** (`"ERROR"`, `"UNKNOWN"`, espacios) | ~500 - 1,000 filas | Los cambié por valores nulos normales (`np.nan`). | Así puedo convertir las columnas a números o fechas sin que marquen error. |
-
-| **Tipos de datos incorrectos** (números leídos como texto) | Columnas de `Quantity`, `Price Per Unit`, `Total Spent` | Convertí las columnas a tipo numérico con `pd.to_numeric`. | Necesito que sean números para poder hacer cálculos y multiplicar. |
-
-| **Faltantes en `Item` y `Price Per Unit`** | ~333 (`Item`), ~179 (`Price Per Unit`) | Rellené los huecos usando un diccionario con los precios fijos del menú. | Como el precio del producto no cambia, puedo deducir el dato con total seguridad. |
-
-| **Faltantes y errores en `Total Spent` y `Quantity`** | ~173 (`Total Spent`), ~138 (`Quantity`) | Recalculé los valores con la fórmula: $\text{Total} = \text{Cantidad} \times \text{Precio}$. | Corrije los errores de dinero y llena los vacíos sin perder la coherencia. |
-
-| **Faltantes en `Payment Method` y `Location`** | ~2,579 (`Payment Method`), ~3,265 (`Location`) | Les asigné la categoría `"Desconocido"`. | Evita que borre miles de filas y me deja conservar el registro de la venta. |
-| **Fechas no válidas** | ~159 filas | Convertí a `datetime` y eliminé los registros sin fecha (`NaT`). | La fecha no se puede adivinar y es un dato clave para analizar ventas en el tiempo. |
-
 Archivos en este repositorio
 * `dirty_cafe_sales.csv`: Archivo original con los datos sucios.
 * `clean_cafe_sales.csv`: Resultado final con los datos limpios.
 * `notebook_cleaning.ipynb`: El cuaderno de Python donde ejecuté todo el código.
+* `Tabla Resumen de Problemas y Decisiones` Los problemas y decisiones que se tomaron.
 * `README.md`: Este archivo explicativo.
